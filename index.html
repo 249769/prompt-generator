@@ -179,7 +179,7 @@
       border-radius: 8px;
       background: var(--white);
       box-shadow: 0 20px 45px rgba(23, 32, 51, 0.08);
-      overflow: hidden;
+      overflow: visible;
     }
 
     .preview-bar {
@@ -201,103 +201,67 @@
 
     .preview-body {
       position: relative;
-      min-height: 420px;
+      min-height: 455px;
       overflow: hidden;
     }
 
     .screen {
       position: absolute;
       inset: 0;
-      display: grid;
-      grid-template-columns: 150px 1fr;
+      display: block;
       opacity: 0;
       visibility: hidden;
-      animation: screenCycle 24s infinite;
+      transform: translateY(8px);
+      transition: opacity 0.45s ease, transform 0.45s ease, visibility 0.45s ease;
     }
 
-    .screen:nth-child(1) {
-      animation-delay: 0s;
-    }
-
-    .screen:nth-child(2) {
-      animation-delay: 6s;
-    }
-
-    .screen:nth-child(3) {
-      animation-delay: 12s;
-    }
-
-    .screen:nth-child(4) {
-      animation-delay: 18s;
-    }
-
-    @keyframes screenCycle {
-      0%, 22% {
-        opacity: 1;
-        visibility: visible;
-      }
-      26%, 100% {
-        opacity: 0;
-        visibility: hidden;
-      }
-    }
-
-    .sidebar {
-      padding: 18px;
-      border-right: 1px solid var(--line);
-      background: #f8fafc;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .sidebar div {
-      padding: 9px 0;
-      border-bottom: 1px solid #e7ebf1;
-    }
-
-    .sidebar .active {
-      color: var(--accent);
-      font-weight: 700;
+    .screen.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
     }
 
     .work {
-      padding: 22px;
+      padding: 22px 24px 20px;
     }
 
     .form-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
 
     .field {
-      margin-bottom: 14px;
+      margin-bottom: 11px;
     }
 
     .field-label {
-      margin-bottom: 7px;
+      margin-bottom: 5px;
       color: var(--muted);
       font-size: 13px;
+      line-height: 1.45;
+      word-break: keep-all;
+      overflow-wrap: break-word;
     }
 
     .field-box {
-      min-height: 38px;
+      min-height: 34px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #ffffff;
     }
 
     .field-box.small {
-      min-height: 34px;
+      min-height: 32px;
     }
 
     .field-box.large {
-      min-height: 96px;
+      min-height: 78px;
     }
 
     .field-box.tall {
-      min-height: 128px;
+      min-height: 102px;
     }
 
     .submit-row {
@@ -305,7 +269,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-top: 16px;
+      margin-top: 12px;
     }
 
     .mini-button {
@@ -319,6 +283,32 @@
       background: var(--accent);
       font-weight: 700;
       font-size: 13px;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -34px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .carousel-dot {
+      width: 11px;
+      height: 11px;
+      padding: 0;
+      border: 1px solid rgba(31, 122, 92, 0.5);
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(23, 32, 51, 0.14);
+      cursor: pointer;
+    }
+
+    .carousel-dot.active {
+      background: var(--accent);
+      border-color: var(--accent);
     }
 
     .generated {
@@ -369,15 +359,6 @@
         grid-template-columns: 1fr;
       }
 
-      .screen {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-      }
-
       .nav {
         align-items: flex-start;
         flex-direction: column;
@@ -385,6 +366,10 @@
 
       .form-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .preview-body {
+        min-height: 520px;
       }
     }
   </style>
@@ -422,14 +407,11 @@
             <span class="dot"></span>
           </div>
           <div class="preview-body">
-            <div class="screen">
-              <div class="sidebar">
-                <div class="active">文生图提示词生成</div>
-                <div>视频提示词生成</div>
-                <div>图像修改提示词生成</div>
-                <div>分镜表提示词生成</div>
-              </div>
+            <div class="screen active">
               <div class="work">
+                <div class="field">
+                  <div class="field-label">文生图提示词生成</div>
+                </div>
                 <div class="form-grid">
                   <div>
                     <div class="field-label">画面比例</div>
@@ -467,13 +449,10 @@
               </div>
             </div>
             <div class="screen">
-              <div class="sidebar">
-                <div>文生图提示词生成</div>
-                <div class="active">视频提示词生成</div>
-                <div>图像修改提示词生成</div>
-                <div>分镜表提示词生成</div>
-              </div>
               <div class="work">
+                <div class="field">
+                  <div class="field-label">视频提示词生成</div>
+                </div>
                 <div class="form-grid">
                   <div>
                     <div class="field-label">画面比例</div>
@@ -525,13 +504,10 @@
               </div>
             </div>
             <div class="screen">
-              <div class="sidebar">
-                <div>文生图提示词生成</div>
-                <div>视频提示词生成</div>
-                <div class="active">图像修改提示词生成</div>
-                <div>分镜表提示词生成</div>
-              </div>
               <div class="work">
+                <div class="field">
+                  <div class="field-label">图像修改提示词生成</div>
+                </div>
                 <div class="field">
                   <div class="field-label">修改对象</div>
                   <div class="field-box"></div>
@@ -555,13 +531,10 @@
               </div>
             </div>
             <div class="screen">
-              <div class="sidebar">
-                <div>文生图提示词生成</div>
-                <div>视频提示词生成</div>
-                <div>图像修改提示词生成</div>
-                <div class="active">分镜表提示词生成</div>
-              </div>
               <div class="work">
+                <div class="field">
+                  <div class="field-label">分镜表提示词生成</div>
+                </div>
                 <div class="field">
                   <div class="field-label">剧情或内容</div>
                   <div class="field-box large"></div>
@@ -595,6 +568,12 @@
               </div>
             </div>
           </div>
+          <div class="carousel-dots" aria-label="切换展示页面">
+            <button class="carousel-dot active" type="button" aria-label="文生图提示词生成"></button>
+            <button class="carousel-dot" type="button" aria-label="视频提示词生成"></button>
+            <button class="carousel-dot" type="button" aria-label="图像修改提示词生成"></button>
+            <button class="carousel-dot" type="button" aria-label="分镜表提示词生成"></button>
+          </div>
         </div>
       </div>
     </section>
@@ -624,5 +603,37 @@
     </section>
 
   </main>
+  <script>
+    const previewScreens = Array.from(document.querySelectorAll(".screen"));
+    const carouselDots = Array.from(document.querySelectorAll(".carousel-dot"));
+    let currentScreen = 0;
+    let carouselTimer = null;
+
+    function showScreen(index) {
+      currentScreen = index;
+      previewScreens.forEach((screen, screenIndex) => {
+        screen.classList.toggle("active", screenIndex === index);
+      });
+      carouselDots.forEach((dot, dotIndex) => {
+        dot.classList.toggle("active", dotIndex === index);
+      });
+    }
+
+    function startCarousel() {
+      window.clearInterval(carouselTimer);
+      carouselTimer = window.setInterval(() => {
+        showScreen((currentScreen + 1) % previewScreens.length);
+      }, 5000);
+    }
+
+    carouselDots.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        showScreen(index);
+        startCarousel();
+      });
+    });
+
+    startCarousel();
+  </script>
 </body>
 </html>
