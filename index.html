@@ -200,9 +200,46 @@
     }
 
     .preview-body {
+      position: relative;
+      min-height: 420px;
+      overflow: hidden;
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
       display: grid;
       grid-template-columns: 150px 1fr;
-      min-height: 360px;
+      opacity: 0;
+      visibility: hidden;
+      animation: screenCycle 24s infinite;
+    }
+
+    .screen:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .screen:nth-child(2) {
+      animation-delay: 6s;
+    }
+
+    .screen:nth-child(3) {
+      animation-delay: 12s;
+    }
+
+    .screen:nth-child(4) {
+      animation-delay: 18s;
+    }
+
+    @keyframes screenCycle {
+      0%, 22% {
+        opacity: 1;
+        visibility: visible;
+      }
+      26%, 100% {
+        opacity: 0;
+        visibility: hidden;
+      }
     }
 
     .sidebar {
@@ -218,8 +255,20 @@
       border-bottom: 1px solid #e7ebf1;
     }
 
+    .sidebar .active {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
     .work {
       padding: 22px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
     }
 
     .field {
@@ -239,8 +288,37 @@
       background: #ffffff;
     }
 
+    .field-box.small {
+      min-height: 34px;
+    }
+
     .field-box.large {
       min-height: 96px;
+    }
+
+    .field-box.tall {
+      min-height: 128px;
+    }
+
+    .submit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .mini-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      padding: 0 14px;
+      border-radius: 8px;
+      color: #ffffff;
+      background: var(--accent);
+      font-weight: 700;
+      font-size: 13px;
     }
 
     .generated {
@@ -285,36 +363,13 @@
       font-size: 14px;
     }
 
-    .download-panel {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      padding: 28px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--panel);
-    }
-
-    .download-panel p {
-      margin: 6px 0 0;
-      color: var(--muted);
-    }
-
-    footer {
-      padding: 28px 0 36px;
-      color: var(--muted);
-      border-top: 1px solid var(--line);
-      font-size: 14px;
-    }
-
     @media (max-width: 860px) {
       .hero-grid,
       .features {
         grid-template-columns: 1fr;
       }
 
-      .preview-body {
+      .screen {
         grid-template-columns: 1fr;
       }
 
@@ -323,10 +378,13 @@
         border-bottom: 1px solid var(--line);
       }
 
-      .download-panel,
       .nav {
         align-items: flex-start;
         flex-direction: column;
+      }
+
+      .form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
   </style>
@@ -340,7 +398,6 @@
       </a>
       <nav class="nav-links" aria-label="页面导航">
         <a href="#features">功能</a>
-        <a href="#download">下载</a>
         <a href="checksums.txt">校验值</a>
       </nav>
     </div>
@@ -365,30 +422,177 @@
             <span class="dot"></span>
           </div>
           <div class="preview-body">
-            <div class="sidebar">
-              <div>文生图提示词生成</div>
-              <div>视频提示词生成</div>
-              <div>图像修改提示词生成</div>
-              <div>分镜表提示词生成</div>
+            <div class="screen">
+              <div class="sidebar">
+                <div class="active">文生图提示词生成</div>
+                <div>视频提示词生成</div>
+                <div>图像修改提示词生成</div>
+                <div>分镜表提示词生成</div>
+              </div>
+              <div class="work">
+                <div class="form-grid">
+                  <div>
+                    <div class="field-label">画面比例</div>
+                    <div class="field-box small"></div>
+                  </div>
+                  <div>
+                    <div class="field-label">景别</div>
+                    <div class="field-box small"></div>
+                  </div>
+                  <div>
+                    <div class="field-label">镜头方向</div>
+                    <div class="field-box small"></div>
+                  </div>
+                  <div>
+                    <div class="field-label">镜头角度</div>
+                    <div class="field-box small"></div>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="field-label">主体描述</div>
+                  <div class="field-box"></div>
+                </div>
+                <div class="field">
+                  <div class="field-label">场景描述</div>
+                  <div class="field-box"></div>
+                </div>
+                <div class="field">
+                  <div class="field-label">动作描述</div>
+                  <div class="field-box"></div>
+                </div>
+                <div class="submit-row">
+                  <span class="mini-button">生成提示词</span>
+                  <span class="field-label">自动复制到剪贴板</span>
+                </div>
+              </div>
             </div>
-            <div class="work">
-              <div class="field">
-                <div class="field-label">主体描述</div>
-                <div class="field-box"></div>
+            <div class="screen">
+              <div class="sidebar">
+                <div>文生图提示词生成</div>
+                <div class="active">视频提示词生成</div>
+                <div>图像修改提示词生成</div>
+                <div>分镜表提示词生成</div>
               </div>
-              <div class="field">
-                <div class="field-label">场景描述</div>
-                <div class="field-box"></div>
+              <div class="work">
+                <div class="form-grid">
+                  <div>
+                    <div class="field-label">画面比例</div>
+                    <div class="field-box small"></div>
+                  </div>
+                  <div>
+                    <div class="field-label">镜头方向</div>
+                    <div class="field-box small"></div>
+                  </div>
+                  <div>
+                    <div class="field-label">镜头角度</div>
+                    <div class="field-box small"></div>
+                  </div>
+                  <div>
+                    <div class="field-label">镜头视角</div>
+                    <div class="field-box small"></div>
+                  </div>
+                </div>
+                <div class="form-grid">
+                  <div>
+                    <div class="field-label">从</div>
+                    <div class="field-box small"></div>
+                  </div>
+                  <div>
+                    <div class="field-label">到</div>
+                    <div class="field-box small"></div>
+                  </div>
+                  <div>
+                    <div class="field-label">运镜</div>
+                    <div class="field-box small"></div>
+                  </div>
+                  <div>
+                    <div class="field-label">风格</div>
+                    <div class="field-box small"></div>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="field-label">具体运镜描述</div>
+                  <div class="field-box"></div>
+                </div>
+                <div class="field">
+                  <div class="field-label">主体、场景、动作</div>
+                  <div class="field-box large"></div>
+                </div>
+                <div class="submit-row">
+                  <span class="mini-button">生成视频提示词</span>
+                  <span class="field-label">复制提示词页签优先显示</span>
+                </div>
               </div>
-              <div class="field">
-                <div class="field-label">动作描述</div>
-                <div class="field-box"></div>
+            </div>
+            <div class="screen">
+              <div class="sidebar">
+                <div>文生图提示词生成</div>
+                <div>视频提示词生成</div>
+                <div class="active">图像修改提示词生成</div>
+                <div>分镜表提示词生成</div>
               </div>
-              <div class="field">
-                <div class="field-label">复制提示词</div>
-                <div class="field-box large"></div>
+              <div class="work">
+                <div class="field">
+                  <div class="field-label">修改对象</div>
+                  <div class="field-box"></div>
+                </div>
+                <div class="field">
+                  <div class="field-label">修改内容</div>
+                  <div class="field-box"></div>
+                </div>
+                <div class="field">
+                  <div class="field-label">需要保持不变的内容</div>
+                  <div class="field-box"></div>
+                </div>
+                <div class="field">
+                  <div class="field-label">画质要求</div>
+                  <div class="field-box large"></div>
+                </div>
+                <div class="submit-row">
+                  <span class="mini-button">生成修改提示词</span>
+                  <span class="field-label">保留手动复制按钮</span>
+                </div>
               </div>
-              <div class="generated">生成后默认进入复制提示词页面，Markdown 导出可手动切换。</div>
+            </div>
+            <div class="screen">
+              <div class="sidebar">
+                <div>文生图提示词生成</div>
+                <div>视频提示词生成</div>
+                <div>图像修改提示词生成</div>
+                <div class="active">分镜表提示词生成</div>
+              </div>
+              <div class="work">
+                <div class="field">
+                  <div class="field-label">剧情或内容</div>
+                  <div class="field-box large"></div>
+                </div>
+                <div class="form-grid">
+                  <div>
+                    <div class="field-label">镜头数量</div>
+                    <div class="field-box small"></div>
+                  </div>
+                  <div>
+                    <div class="field-label">风格参考</div>
+                    <div class="field-box small"></div>
+                  </div>
+                  <div>
+                    <div class="field-label">文生图提示词</div>
+                    <div class="field-box small"></div>
+                  </div>
+                  <div>
+                    <div class="field-label">导出 Markdown</div>
+                    <div class="field-box small"></div>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="field-label">复制提示词</div>
+                  <div class="field-box tall"></div>
+                </div>
+                <div class="submit-row">
+                  <span class="mini-button">生成分镜表提示词</span>
+                  <span class="field-label">可交给 AI 生成分镜表</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -419,24 +623,6 @@
       </div>
     </section>
 
-    <section id="download">
-      <div class="shell">
-        <div class="download-panel">
-          <div>
-            <h2>下载软件</h2>
-            <p>推荐普通用户下载安装器；需要免安装使用时下载便携版。</p>
-          </div>
-          <div class="actions">
-            <a class="button primary" href="https://github.com/re15555249769-bot/prompt-generator/releases/latest/download/PromptGenerator-Setup.exe">安装器</a>
-            <a class="button secondary" href="https://github.com/re15555249769-bot/prompt-generator/releases/latest/download/PromptGenerator-Portable.zip">便携版</a>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
-
-  <footer>
-    <div class="shell">提示词生成器只在本地运行。下载前可查看 checksums.txt 校验文件完整性。</div>
-  </footer>
 </body>
 </html>
