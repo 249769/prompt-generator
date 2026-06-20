@@ -1,0 +1,15 @@
+{
+  "name": "提示词生成器",
+  "short_name": "提示词生成器",
+  "description": "本地运行的中文提示词生成工具。",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "assets/app_icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

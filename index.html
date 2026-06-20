@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>提示词生成器 - 本地运行的分镜、文生图、视频提示词工具</title>
+  <meta name="description" content="提示词生成器是一款 Windows 本地软件，用于生成文生图提示词、视频提示词、图像修改提示词和分镜表提示词。">
+  <meta name="keywords" content="提示词生成器,文生图提示词,视频提示词,分镜表提示词,图像修改提示词,本地软件">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://re15555249769-bot.github.io/prompt-generator/">
+  <link rel="icon" href="assets/app_icon.png" type="image/png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:title" content="提示词生成器">
+  <meta property="og:description" content="本地运行的中文提示词生成工具，支持文生图、视频、图像修改和分镜表提示词。">
+  <meta property="og:url" content="https://re15555249769-bot.github.io/prompt-generator/">
+  <meta property="og:image" content="https://re15555249769-bot.github.io/prompt-generator/assets/app_icon.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "提示词生成器",
+    "operatingSystem": "Windows 10/11",
+    "applicationCategory": "MultimediaApplication",
+    "softwareVersion": "1.0.0",
+    "description": "本地运行的中文提示词生成器，支持文生图提示词、视频提示词、图像修改提示词和分镜表提示词。",
+    "downloadUrl": "https://github.com/re15555249769-bot/prompt-generator/releases/latest/download/PromptGenerator-Setup.exe",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Local Prompt Tools"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "CNY"
+    }
+  }
+  </script>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #5e6878;
+      --line: #d8dee8;
+      --panel: #f5f7fb;
+      --accent: #1f7a5c;
+      --accent-strong: #146147;
+      --soft: #ecf7f2;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--white);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .shell {
+      width: min(1120px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.96);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+    }
+
+    .hero {
+      padding: 74px 0 54px;
+      background: linear-gradient(180deg, #ffffff 0%, #f7faf9 100%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: 48px;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(36px, 6vw, 64px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 680px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 8px;
+      border: 1px solid var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .button.primary {
+      color: #ffffff;
+      background: var(--accent);
+    }
+
+    .button.primary:hover {
+      background: var(--accent-strong);
+    }
+
+    .button.secondary {
+      color: var(--accent);
+      background: #ffffff;
+    }
+
+    .meta {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .preview {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      box-shadow: 0 20px 45px rgba(23, 32, 51, 0.08);
+      overflow: hidden;
+    }
+
+    .preview-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 42px;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--line);
+      background: #f0f3f7;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #9aa4b2;
+    }
+
+    .preview-body {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      min-height: 360px;
+    }
+
+    .sidebar {
+      padding: 18px;
+      border-right: 1px solid var(--line);
+      background: #f8fafc;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .sidebar div {
+      padding: 9px 0;
+      border-bottom: 1px solid #e7ebf1;
+    }
+
+    .work {
+      padding: 22px;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    .field-label {
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .field-box {
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .field-box.large {
+      min-height: 96px;
+    }
+
+    .generated {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 8px;
+      background: var(--soft);
+      color: #255d49;
+      font-size: 14px;
+    }
+
+    section {
+      padding: 56px 0;
+    }
+
+    h2 {
+      margin: 0 0 20px;
+      font-size: 28px;
+      letter-spacing: 0;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .feature {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .feature strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .feature span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .download-panel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .download-panel p {
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 28px 0 36px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid,
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .preview-body {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .download-panel,
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="shell nav">
+      <a class="brand" href="./" aria-label="提示词生成器首页">
+        <img src="assets/app_icon.png" alt="提示词生成器图标">
+        <span>提示词生成器</span>
+      </a>
+      <nav class="nav-links" aria-label="页面导航">
+        <a href="#features">功能</a>
+        <a href="#download">下载</a>
+        <a href="checksums.txt">校验值</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div>
+          <h1>提示词生成器</h1>
+          <p class="lead">一款本地运行的 Windows 软件，用于快速整理文生图、视频、图像修改和分镜表提示词。</p>
+          <div class="actions">
+            <a class="button primary" href="https://github.com/re15555249769-bot/prompt-generator/releases/latest/download/PromptGenerator-Setup.exe">下载 Windows 安装器</a>
+            <a class="button secondary" href="https://github.com/re15555249769-bot/prompt-generator/releases/latest/download/PromptGenerator-Portable.zip">下载便携版</a>
+          </div>
+          <div class="meta">版本 1.0.0 ｜ Windows 10/11 64 位 ｜ 本地运行</div>
+        </div>
+        <div class="preview" aria-label="软件界面示意">
+          <div class="preview-bar">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+          <div class="preview-body">
+            <div class="sidebar">
+              <div>文生图提示词生成</div>
+              <div>视频提示词生成</div>
+              <div>图像修改提示词生成</div>
+              <div>分镜表提示词生成</div>
+            </div>
+            <div class="work">
+              <div class="field">
+                <div class="field-label">主体描述</div>
+                <div class="field-box"></div>
+              </div>
+              <div class="field">
+                <div class="field-label">场景描述</div>
+                <div class="field-box"></div>
+              </div>
+              <div class="field">
+                <div class="field-label">动作描述</div>
+                <div class="field-box"></div>
+              </div>
+              <div class="field">
+                <div class="field-label">复制提示词</div>
+                <div class="field-box large"></div>
+              </div>
+              <div class="generated">生成后默认进入复制提示词页面，Markdown 导出可手动切换。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="shell">
+        <h2>核心功能</h2>
+        <div class="features">
+          <div class="feature">
+            <strong>文生图提示词</strong>
+            <span>整合比例、景别、镜头方向、角度、视角、风格和画质要求。</span>
+          </div>
+          <div class="feature">
+            <strong>视频提示词</strong>
+            <span>支持景别变化、运镜方式、具体运镜描述和视频负面提示词。</span>
+          </div>
+          <div class="feature">
+            <strong>图像修改提示词</strong>
+            <span>用于描述修改对象、修改内容、保持不变内容和画质要求。</span>
+          </div>
+          <div class="feature">
+            <strong>分镜表提示词</strong>
+            <span>把剧情或内容整理成可交给 AI 生成分镜表的完整提示词。</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="download">
+      <div class="shell">
+        <div class="download-panel">
+          <div>
+            <h2>下载软件</h2>
+            <p>推荐普通用户下载安装器；需要免安装使用时下载便携版。</p>
+          </div>
+          <div class="actions">
+            <a class="button primary" href="https://github.com/re15555249769-bot/prompt-generator/releases/latest/download/PromptGenerator-Setup.exe">安装器</a>
+            <a class="button secondary" href="https://github.com/re15555249769-bot/prompt-generator/releases/latest/download/PromptGenerator-Portable.zip">便携版</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell">提示词生成器只在本地运行。下载前可查看 checksums.txt 校验文件完整性。</div>
+  </footer>
+</body>
+</html>

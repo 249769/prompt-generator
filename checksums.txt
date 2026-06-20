@@ -1,0 +1,4 @@
+﻿SHA256 checksums
+
+30921af173f1edd58286755ec68614186ac2cb8d3f57e90c87a1835fe79d6ccb  提示词生成器安装器.exe
+9a653f2100bcb9e0bb2688262dc4162f54a284f5565ab3fa33351756ad6db583  PromptGenerator_portable.zip
