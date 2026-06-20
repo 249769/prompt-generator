@@ -179,7 +179,7 @@
       border-radius: 8px;
       background: var(--white);
       box-shadow: 0 20px 45px rgba(23, 32, 51, 0.08);
-      overflow: visible;
+      overflow: hidden;
     }
 
     .preview-bar {
@@ -286,13 +286,11 @@
     }
 
     .carousel-dots {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -34px;
       display: flex;
       justify-content: center;
       gap: 10px;
+      padding: 8px 0 16px;
+      background: #ffffff;
     }
 
     .carousel-dot {
@@ -307,8 +305,9 @@
     }
 
     .carousel-dot.active {
-      background: var(--accent);
+      background: #ffffff;
       border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(31, 122, 92, 0.16), 0 2px 8px rgba(23, 32, 51, 0.14);
     }
 
     .generated {
@@ -499,7 +498,6 @@
                 </div>
                 <div class="submit-row">
                   <span class="mini-button">生成视频提示词</span>
-                  <span class="field-label">复制提示词页签优先显示</span>
                 </div>
               </div>
             </div>
@@ -526,7 +524,6 @@
                 </div>
                 <div class="submit-row">
                   <span class="mini-button">生成修改提示词</span>
-                  <span class="field-label">保留手动复制按钮</span>
                 </div>
               </div>
             </div>
